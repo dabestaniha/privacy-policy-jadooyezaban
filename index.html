@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fa" dir="auto">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیاست حفظ حریم خصوصی</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="markdown.css">
+    
+    <style>
+        body { font-family: 'Vazirmatn', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+
+<!-- Header -->
+<header class="bg-white shadow p-4 flex items-center justify-center">
+    <div class="flex items-center space-x-3 rtl:space-x-reverse">
+        <img id="site-logo" src="logo.png" alt="logo" class="h-10">
+    </div>
+</header>
+
+<!-- Content -->
+<main class="flex-1 container mx-auto p-6">
+    <div class="content-center mb-6 flex justify-center">
+        <h1 id="page-title" class="text-xl font-semibold"></h1>
+    </div>
+
+    <div id="policy-content" class="prose max-w-none leading-loose"></div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-100 border-t p-4 text-sm text-gray-600">
+    <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+        <div id="license" dir="auto">© 2025 تمامی حقوق محفوظ است.</div>
+        <div id="contact-info" dir="auto">تماس: info@example.com</div>
+    </div>
+</footer>
+
+<script>
+    async function loadPrivacyPolicy() {
+        const subdomain = window.location.hostname.split('.')[0];
+        try {
+            const response = await fetch('api.json', {
+                headers: { 'app-key': subdomain }
+            });
+            const data = await response.json();
+
+            document.getElementById('page-title').innerText = data.title || 'Privacy Policy';
+            if (data.logo) document.getElementById('site-logo').src = data.logo;
+
+            for (const [language, url] of Object.entries(data.body)) {
+
+                const text = marked.parse(
+                    await (await fetch(url)).text()
+                );
+
+                document.getElementById('policy-content').innerHTML += `
+                        <div id="policy-content-${language}" dir="auto">${text}</div>
+                `;
+            }
+
+            document.getElementById('contact-info').innerText = data.contact || '';
+            document.getElementById('license').innerText = data.license || '';
+        } catch (error) {
+            document.getElementById('policy-content').innerHTML = '<p class="text-red-600">خطا در بارگذاری اطلاعات.</p>';
+            console.error(error);
+        }
+    }
+
+    loadPrivacyPolicy();
+</script>
+</body>
+</html>

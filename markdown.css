@@ -1,0 +1,37 @@
+#policy-content h1 {
+    font-size: 1.75rem; /* like text-2xl */
+    font-weight: 700;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#policy-content h2 {
+    font-size: 1.5rem; /* like text-xl */
+    font-weight: 600;
+    margin-top: 1.25rem;
+    margin-bottom: 0.75rem;
+}
+
+#policy-content h3 {
+    font-size: 1.25rem; /* like text-lg */
+    font-weight: 600;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+#policy-content p {
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+}
+
+#policy-content ul {
+    list-style-type: disc;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+#policy-content ol {
+    list-style-type: decimal;
+    margin-left: 1.5rem;
+    margin-bottom: 1rem;
+}
